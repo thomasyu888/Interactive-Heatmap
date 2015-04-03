@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<script src="http://d3js.org/d3.v3.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="Sage_heatmap.js"></script>
+	<script src="dendrogram.js"></script>
+	<link rel="stylesheet" href="Sage_heatmap.css"/>
+
+<head>
+
+	<script>
+		var mainFile = 'PCBC_geneExpr_data.csv';
+		var metaData = 'metadata.csv';
+		var colDendro = 'dendro_col.json';
+		var rowDendro = 'dendro.json';
+		$(document).ready(function() {
+			heatmap_display(mainFile, metaData);
+		});
+	</script>
+
+</head>
+
+<body>
+	<h1> Level of gene expression </h1>
+
+	Trait:
+	<select id="menuselect">
+		<option value="State" selected>State</option>
+		<option value="Weight (pounds)">Weight (pounds)</option>
+	</select>
+
+	<input type="button" value="Refresh" onClick="history.go(0)">
+
+	<div id="heatmap"></div>
+
+</body>
+</html>
