@@ -1,6 +1,6 @@
 # Interactive-Heatmap
 
-A interactive heatmap with mouseover ability and a zoom into a selected area functionality.
+A interactive heatmap with mouseover ability and a zoom into a selected area functionality. Heatmap_run displays the heatmap, but a csv file has to be filled into the mainFile line before the script will run.
 
 The metadata is made up
 
