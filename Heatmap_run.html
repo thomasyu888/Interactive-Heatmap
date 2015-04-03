@@ -3,8 +3,7 @@
 <html>
 	<script src="http://d3js.org/d3.v3.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="Sage_heatmap.js"></script>
-	<script src="dendrogram.js"></script>
+	<script src="Heatmap.js"></script>
 	<link rel="stylesheet" href="Sage_heatmap.css"/>
 
 <head>
@@ -12,8 +11,6 @@
 	<script>
 		var mainFile = '___________';
 		var metaData = 'metadata.csv';
-		var colDendro = 'dendro_col.json';
-		var rowDendro = 'dendro.json';
 		$(document).ready(function() {
 			heatmap_display(mainFile, metaData);
 		});
