@@ -9,8 +9,11 @@ The metadata is made up
 
 Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid.  However, can only select an area once (Need to fix this issue).  Zoom function only works once!
 
+**Clustering.R**
 
-References
+This file in Version 2 folder does all the clustering of the data.  Make sure to input your desired CSV file and made up metadata into the clustering.R file.  This will allow R to give out 4 files that are needed in running the heatmap.
+
+**References**
 
 http://bl.ocks.org/PBrockmann/635179ff33f17d2d75c2
 
