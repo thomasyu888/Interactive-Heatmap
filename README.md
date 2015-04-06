@@ -6,6 +6,7 @@ A interactive heatmap with mouseover ability and a zoom into a selected area fun
 The metadata is made up
 
 Version 2:
+
 Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid.  However, can only select an area once (Need to fix this issue).  Zoom function only works once!
 
 
