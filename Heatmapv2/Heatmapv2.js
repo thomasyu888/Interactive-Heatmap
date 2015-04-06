@@ -271,11 +271,15 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
                             var newAnnot = [];
                             var newcolDend = [];
                             var newrowDend = [];
-
+                            
+                            //If the row dendrogram is selected, make the col dendrogram undefined 
+                            //because I dont want the col dendrogram to change
                             if (num==1) {
                                 xStart = 0;
                                 xFinish = dataset[0].length
                                 newcolDend = undefined;
+                            //If the col dendrogram is selected, make the col dendrogram undefined 
+                            //because I dont want the row dendrogram to change
                             } else if (num==2) {
                                 yStart = 0;
                                 yFinish = dataset.length
@@ -294,7 +298,7 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
                                     newcolDend.push(d3.select(".ends_col"+i).attr("id"))
                                 }
                             }
-
+                            //Get selected Data
                             for (i=yStart;i<yFinish; i++) {
                                 newRow.push(rowlabel[i]);
                                 if (newrowDend != undefined) {
@@ -312,20 +316,20 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
                             var x = xScale(1);
                             var y = yScale(1);
                             
-                            //something really wrong with this scaling
+                            //Delete all the labels and heatmap and annotations so that the zoomed ones can be updated
 
                             d3.selectAll('.xLabel').remove();
                             d3.selectAll('.yLabel').remove();
                             d3.selectAll('.annote').remove();
                             d3.selectAll('.grid').remove();
                             d3.selectAll('.rootDend').remove();
+                            //New heatmap
                             heatmaprect(heatmap, rgbScale, xScale, yScale, zoomDat, newRow,newCol);
                             //modifies metadata with respect to selected area
                             modifyMeta(xStart,xFinish);
-                            drawDend(newcolDend,newrowDend,xStart,yStart,x,y);
-
-
-
+                            //New dendrogram
+                            drawDend(newcolDend,newrowDend,xStart,yStart,x,y); 
+                            //New annotation bar
                             drawAnnotate(annotesvg, newAnnot);
                             zoomDat = [];
                             //remove blue select rectangle
@@ -422,7 +426,7 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
                 return scaling(d);
             })         
     };
-
+    //Function to draw the dendrograms newcolDend, newrowDend is undefined if there is no zoom
     function drawDend(newcolDend,newrowDend,xStart,yStart,x,y) {
         d3.json(rowData, function(json) {
             data = json;
@@ -442,7 +446,7 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
         var y = d3.scale.linear()
             .domain([0, height])
             .range([0, height]);
-      
+        //Clustering d3
         var cluster = d3.layout.cluster()
             .separation(function(a, b) { return 1; })
             .size([rotated ? width : height, (rotated ? height : width) - 160]);
@@ -517,7 +521,6 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
         //accesses all the leafnodes
         var leafNode = node.filter(function(d, i){ 
             return !d.children; })
-
         //.append("text")
         //.attr("dx", dx)
         //.attr("dy", 3)
@@ -525,7 +528,7 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
         //.text(function(d) { return d.name; })
         //.attr("font-size","4px")
 
-        //All the ends of the leafs
+        //All the ends of the leafs (This is for the zoom function)
         var leafLink = link.filter(function(d,i) {
             if (d.target.name.length>7) {
                 return d.target;
@@ -533,7 +536,6 @@ function heatmap_display(mainUrl,metaUrl,rowData,colData) {
         }).attr("class",function(d,i) {
             return "ends_"+(rotated ? "col" : "row")+i;
         })
-
 
         return leafNode;
         
