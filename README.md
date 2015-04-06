@@ -1,11 +1,11 @@
 # Interactive-Heatmap
-Version 1:
+**Version 1:**
 
 A interactive heatmap with mouseover ability and a zoom into a selected area functionality. Heatmap_run displays the heatmap, but a csv file has to be filled into the mainFile line before the script will run. No dendrogram.
 
 The metadata is made up
 
-Version 2:
+**Version 2:**
 
 Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid.  However, can only select an area once (Need to fix this issue).  Zoom function only works once!
 
