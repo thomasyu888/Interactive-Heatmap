@@ -7,7 +7,7 @@ The metadata is made up
 
 **Version 2:**
 
-Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid.  However, can only select an area once (Need to fix this issue).  Zoom function only works once!
+Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid. However, zoom function only works once! =[
 
 **Clustering.R**
 
