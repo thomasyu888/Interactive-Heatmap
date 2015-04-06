@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+	<script src="http://d3js.org/d3.v3.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="Sage_heatmap.js"></script>
+	<link rel="stylesheet" href="Sage_heatmap.css"/>
+
+<head>
+
+	<script>
+		var data = 'gene.csv';
+		var metaData = 'metadata.csv';
+		var colDendro = 'colDendro.json';
+		var rowDendro = 'rowDendro.json';
+
+		$(document).ready(function() {
+			heatmap_display(data, metaData,rowDendro,colDendro);
+		});
+	</script>
+
+</head>
+
+<body>
+	<h1> Level of gene expression </h1>
+
+	<input type="button" value="Refresh" onClick="history.go(0)">
+
+	<div id="heatmap"></div>
+
+</body>
+</html>
