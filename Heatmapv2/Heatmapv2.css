@@ -31,7 +31,7 @@ body {
     stroke-width: 1px;
   shape-rendering: crispEdges;
 }
-.colDend {
+.yDend {
   position: absolute;
   top: 0;
   left: 150px;
@@ -39,7 +39,7 @@ body {
   height: 250px;
   z-index: -1;
 }
-.rowDend {
+.xDend {
   position: absolute;
   left: 0;
   top: 220px;
