@@ -324,9 +324,10 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                             d3.selectAll('.annote').remove();
                             d3.selectAll('.grid').remove();
                             d3.selectAll('.rootDend').remove();
+
                             //New heatmap
                             heatmaprect(heatmap, rgbScale, xScale, yScale, zoomDat, newyLab,newxLab);
-                            //modifies metadata with respect to selected area
+                            //Modifies metadata with respect to selected area
                             modifyMeta(xStart,xFinish);
                             //New dendrogram
                             drawDend(newxDend,newyDend,xStart,yStart,x,y); 
@@ -464,23 +465,16 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                 // Rotate
                 transform = "rotate(-90," + height/2 + "," + height/2 + ") translate(140, 0)";
             }
+        //stretch is default 1 because y(d.source) has to remain unchanged when not stretched
         var newLinks = [];  
-
+        var stretch = 1;
         //If zoom, then dend will not be undefined, Then the data put into draw will be different
         if (dend != undefined) {
-
-            var start=  parseInt(dend[0]);
-            var finish = parseInt(dend[dend.length-1])+1;
-            //For the transform scale of the transform:  It is (data/selected region) ratio -0.5 because 
-            //without it, the strech isn't long enough
-            var stretch = links.length/(2*dend.length-0.5);
+            //For the transform scale of the transform:  It is (data length/selected data length) ratio:
+            //and length of data is links.length/2+1
+            stretch = (links.length/2+1)/dend.length;
             //Shift*range is just the transform to move the dendrogram up after the scaling
-            transform += "scale(1," + stretch+") translate(0,"+(-shift*range) + ")";
-            for (j=start; j<finish; j++) { 
-                newLinks.push(links[j]);    
-            }
-        } else {
-            newLinks = links;
+            transform += "translate(0,"+(-shift*range*stretch) + ")";
         }
 
         svg = svg
@@ -493,13 +487,13 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
         function draw() {
             // Constrain translation to extent
             function elbow(d, i) {
-                return x(d.source.y) + "," + y(d.source.x) + " " +
-                    x(d.source.y) + "," + y(d.target.x) + " " +
-                    x(d.target.y) + "," + y(d.target.x);
+                return x(d.source.y) + "," + stretch*y(d.source.x) + " " +
+                    x(d.source.y) + "," + stretch*y(d.target.x) + " " +
+                    x(d.target.y) + "," + stretch*y(d.target.x);
             }
 
         var link = svg.selectAll(".link")
-            .data(newLinks)
+            .data(links)
             .attr("points", elbow)
             .enter().append("polyline")
             .attr("class", "link")
