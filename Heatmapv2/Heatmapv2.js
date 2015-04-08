@@ -38,8 +38,6 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
         //-for loop 
         var alldat = [];
         var count = 0;
-        //Annotations
-        rawmeta();
         var max = -Infinity;
         var min = +Infinity;
         //For the rgb scale, every number in the dataset and store just the values of the dataset into onlyVal!
@@ -69,11 +67,12 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
         var rgbScale = d3.scale.linear()
             .domain([max, mean, min])
             .range(['red','orange','lightyellow']);
-
+        
+        //Annotations
+        rawmeta();
         //Makes heatmap
-        var heatGrid = heatmaprect(svg.select('svg.heatmap'),rgbScale, xScale,yScale,onlyVal,yLabel,xLabel);
+        var heatGrid = heatmaprect(svg.select('svg.heatmap'),rgbScale, xScale,yScale,onlyVal,yLabel,xLabel,0,0);
         var dendro = drawDend()
-
 
         //Select Area of dendrogram
         var selectXDend = selectArea(xDend,
@@ -99,7 +98,7 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
         });
 
     //////DRAWING HEATMAP RECTANGLES
-    function heatmaprect(svg, rgbScale,xScale,yScale,dataset,yLabel,xLabel) {
+    function heatmaprect(svg, rgbScale,xScale,yScale,dataset,yLabel,xLabel,xStart,yStart) {
         //For the genes
         var j=0;
         //When there are more than 70 genes, it doesn't make sense to have the row labels
@@ -151,6 +150,10 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                 d3.select("#yLab"+j).classed("hover",true);
                 d3.select("#xLab"+i).classed("hover",true);
                 d3.select(this).classed("hoverover",true)
+                //Dendrogram is not recalculated, so xStart and yStart have to be passed in so that 
+                //the hoverover works for the dendrogram
+                d3.select(".ends_X"+(j+yStart)).classed("hover",true);
+                d3.select(".ends_Y"+(i+xStart)).classed("hover",true);
                      
                 //meta data!
                 var titles = metaparsed[0];
@@ -165,17 +168,20 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                             
                 label
                     //event.page gives current cursor location
-                    .style('top', (d3.event.pageY-50)+'px')
-                    .style('left', (d3.event.pageX-150)+'px')
+                    .style('top', (d3.event.pageY-55)+'px')
+                    .style('left', (d3.event.pageX-155)+'px')
                     .style('background','white')
                     .style('display','block')
                     .style('opacity',0.6)
                     .html(output)        
             })
+            
             .on('mouseout', function(d,i,j) {
                 d3.select("#yLab"+j).classed("hover",false);
                 d3.select("#xLab"+i).classed("hover",false);
-                d3.select(this).classed("hoverover",false)
+                d3.select(this).classed("hoverover",false);
+                d3.select(".ends_X"+(j+yStart)).classed("hover",false);
+                d3.select(".ends_Y"+(i+xStart)).classed("hover",false);
                             
             label
                 .style('display','none')
@@ -218,7 +224,6 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                 .attr("id", function(d,i) {
                     return "xLab" + i
                 })
-
 
             if (yLabel.length>70) {
                 genelabel.style('opacity',0)
@@ -326,7 +331,7 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
                             d3.selectAll('.rootDend').remove();
 
                             //New heatmap
-                            heatmaprect(heatmap, rgbScale, xScale, yScale, zoomDat, newyLab,newxLab);
+                            heatmaprect(heatmap, rgbScale, xScale, yScale, zoomDat, newyLab,newxLab,xStart,yStart);
                             //Modifies metadata with respect to selected area
                             modifyMeta(xStart,xFinish);
                             //New dendrogram
@@ -360,7 +365,7 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
         });
     };
 
-
+    //Annotation scale
     function annotScale(selectedDat) { 
         var scaling;
         //Changes the color scale for annotation bar
@@ -416,9 +421,6 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
             .enter()
             .append('svg:rect')
             .attr("class","annote")
-            //.attr('col',function(d,i) {
-            //    return i;
-            //})
             .attr('width' , xScale(1))
             .attr('height', 5)
             .attr('x' , function(d,i) {
@@ -444,12 +446,14 @@ function heatmap_display(mainUrl,metaUrl,xData,yData) {
 
     }
 
+    //Draws the dendrogram
     function dendrogram(svg, data, rotated, width, height,dend,shift,range) {
 
         var x = d3.scale.linear();
         var y = d3.scale.linear()
             .domain([0, height])
             .range([0, height]);
+            
         //Clustering d3
         var cluster = d3.layout.cluster()
             .separation(function(a, b) { return 1; })
