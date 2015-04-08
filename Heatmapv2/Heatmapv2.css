@@ -12,6 +12,9 @@ text.hover {
   font-weight: bold;
   font-size: 9px;
 }
+polyline.hover {
+  stroke: black;
+}
 h1 {
     font-family:sans-serif;
     font-size: 18px;
