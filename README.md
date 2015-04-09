@@ -1,17 +1,10 @@
 # Interactive-Heatmap
-**Version 1:**
 
-A interactive heatmap with mouseover ability and a zoom into a selected area functionality. Heatmap_run displays the heatmap, but a csv file has to be filled into the mainFile line before the script will run. No dendrogram.
-
-The metadata is made up
-
-**Version 2:**
-
-Extension of Version 1 with dendrograms.  Has zooming capability on the dendrograms along with the heatmap grid. However, zoom function only works once! =[
+This is an interactive heatmap that has hoverover ability and also a zoom feature.  The zoom feature allows you to select an area and zoom into it. However, zoom function only works once! =[
 
 **Clustering.R**
 
-This file in Version 2 folder does all the clustering of the data.  Make sure to input your desired CSV file and made up metadata into the clustering.R file.  This will allow R to give out 4 files that are needed in running the heatmap.
+This does all the clustering of the data.  Make sure to input your desired CSV file and made up metadata into the clustering.R file.  This will allow R to give out 4 files that are needed in running the heatmap.
 
 **References**
 
