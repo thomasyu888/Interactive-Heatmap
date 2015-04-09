@@ -1,30 +1,7 @@
 function heatmap_display(metaData,xData,yData,mainData) {
     //SVG
 
-    var svg  = d3.select('body')
-    var yDend = svg.append("svg").classed("yDend", true);
-    var xDend = svg.append("svg").classed("xDend", true);
-    var heatmap = svg.append("svg").classed("heatmap", true);
-    var annotation = svg.append("svg").classed("annotations",true);
-
-    //Label for mouseover ability
-    var label = d3.select('body')
-        .append('div')
-        .style('position','absolute')
-        .style('display','none')
-        .style('font-size','10px');          
-
-    var width = 1300;
-        height = 550;
-    //Annotations
-    rawmeta();
-    //Makes heatmap
-
-    d3.json(mainData, function(json) {
-        data = json;
-        yLength = data[1].length
-            //Data for heatmap
-            //data[0] = data
+    var
             //data[1] = rows (yLabel)
             //data[2] = cols (xLabel)
                 //Heatmap color scale
